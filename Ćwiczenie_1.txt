@@ -1,0 +1,97 @@
+:- discontiguous rodzic/2.
+
+% RELACJE
+
+rodzic(stefan, roman).
+rodzic(stefan, henryk).
+rodzic(roman, marian).
+rodzic(roman, marek).
+rodzic(henryk, adam).
+rodzic(henryk, jan).
+
+dziadek(X, Y):-
+    rodzic(X, Z),
+    rodzic(Z, Y).
+
+wój(X, Y):-
+    rodzic(Ojciec, Y),
+    rodzic(Dziadek, Ojciec),
+    rodzic(Dziadek, X),
+    X \= Ojciec.
+
+kuzyn(X, Y):-
+    wój(W, Y),
+    rodzic(W, X).
+
+syn(X, Y):-
+    rodzic(Y, X).
+
+
+% Zad 1.1
+
+/* 
+ * A - rodzenstwo
+ * B - kuzyni
+ * C - wspolny wnuk/wnuczka
+ * D - przybrany rodzic
+ * E - przyrodnie rodzenstwo
+ * F - rodzenstwo meza/zony
+ * G - X jest jednoczesnie
+ *     przyrodnim bratem i
+ *     wujkiem Y
+ */
+
+% Zad 1.2
+
+
+rodzenstwo(X, Y):-
+    rodzic(Z, X),
+    rodzic(Z, Y),
+    X \= Y.
+
+wspolny_wnuk(X, Y):-
+    rodzic(X, Z),
+    rodzic(Y, Z),
+    X \= Y.
+
+rodzic(henryk, pawel).
+rodzic(henryk, filip).
+rodzic(paulina, filip).
+rodzic(iwona, pawel).
+rodzic(zofia, jan).
+rodzic(zofia, adam).
+
+przybrany_rodzic(X, Y):-
+    rodzic(Rodzic, X),
+    rodzic(Rodzic, Z),
+    rodzic(Y, Z),
+    \+rodzic(Y, X).
+
+przyrodnie_rodzenstwo(X, Y):-
+    przybrany_rodzic(X, PR),
+    rodzic(PR, Y).
+
+rodzenstwo_partnera(X, Y):-
+    rodzic(X, D),
+    rodzic(P, D),
+    rodzenstwo(P, Y),
+    X \= P.
+
+rodzic(kasia, zenek).
+rodzic(rafal, zenek).
+rodzic(kasia, wiola).
+rodzic(wiola, szymon).
+rodzic(rafal, szymon).
+
+przyklad_g(X, Y):-
+    rodzic(R1, X),
+    rodzic(R2, X),
+    R1 \= R2,
+    rodzic(R1, D),
+    X \= D,
+    rodzic(D, Y),
+    rodzic(R2, Y),
+    R2 \= D.
+    
+    
+    
