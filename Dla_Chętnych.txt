@@ -1,0 +1,57 @@
+% Zadanie 1
+
+:- discontiguous czlowiek/1.
+
+czlowiek(markus).
+pompejanczyk(markus).
+rzymianin(X) :- pompejanczyk(X).
+wladca(cezar).
+nielojalny(X, Y) :- ludzie(X), wladca(Y), pdz(X, Y).
+nielojalny(X, cezar) :- nienawidzi(X, cezar), rzymianin(X).
+nienawidzi(X, cezar) :- nielojalny(X, cezar), rzymianin(X).
+pdz(markus, cezar).
+czlowiek(X) :- ludzie(X).
+ludzie(X) :- czlowiek(X). 
+lojalny(X, Y) :- \+nielojalny(X, Y).
+
+
+% Zadanie 2
+
+lubi(jan, X):-
+    pozywienie(X).
+
+pozywienie(jablka).
+pozywienie(kurczak).
+
+pozywienie(X):-
+    je(Ktos, X),
+    zyje(Ktos).
+
+zyje(adam).
+je(adam, orzeszki).
+
+je(basia, X):-
+    je(adam, X).
+
+
+% Zadanie 3
+
+urodzil_sie(markus, 40).
+urodzil_sie(karol, 742).
+
+zginal_w_wybuchu_wulkanu(X, Rok):-
+    pompejanczyk(X),
+    urodzil_sie(X, Narodziny),
+    Rok >= 79,
+    79 - Narodziny =< 150,
+    79 - Narodziny > 0.
+    
+czy_zyje_w_roku(X, Rok):-
+    urodzil_sie(X, Narodziny),
+    Rok - Narodziny =< 150,
+    Rok - Narodziny > 0,
+    \+zginal_w_wybuchu_wulkanu(X, Rok).
+    
+    
+
+
